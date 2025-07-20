@@ -62,5 +62,80 @@ namespace StampinUpPlaywrightDemo.Helpers
 
             return new HttpResponse((int)response.StatusCode, response.ReasonPhrase ?? "", content);
         }
+
+        public async Task<Account> GetFullAccountAsync(string cookie)
+        {
+            var getResponse = await GetAsync("/account", cookie);
+            Assert.That(getResponse.Code, Is.EqualTo(200), "GET /account failed");
+            return JsonConvert.DeserializeObject<Account>(getResponse.Data);
+        }
+
+        public Contact ExtractContactFromAccount(Account account)
+        {
+            return new Contact
+            {
+                FirstName = account.FirstName,
+                LastName = account.LastName,
+                email = account.Email,
+                NewEmail = account.Email,
+                PhoneNumber = account.PhoneNumber,
+                PreferredContact = account.PreferredContact,
+                Birthday = account.Birthday
+            };
+        }
+
+        public Contact GenerateSanitizedContact(Contact original)
+        {
+            var rand = new Random();
+            var newFirst = $"Test{rand.Next(100, 999)}";
+            var newLast = $"User{rand.Next(100, 999)}";
+
+            var phoneBase = "(435) 659-";
+            var newLast4 = rand.Next(1000, 9999).ToString();
+            var newPhone = phoneBase + newLast4;
+
+            var contactMethods = new[] { "email", "text", "phone" };
+
+            return new Contact
+            {
+                FirstName = newFirst,
+                LastName = newLast,
+                email = original.email,
+                NewEmail = original.email,
+                PhoneNumber = newPhone,
+                PreferredContact = contactMethods[rand.Next(contactMethods.Length)],
+                Birthday = original.Birthday ?? "01 May"
+            };
+        }
+
+        public async Task<HttpResponse> PutContactInfoAsync(Contact contact, string cookie)
+        {
+            Console.WriteLine("PUT /account/contact with sanitized contact data");
+            Console.WriteLine(JsonConvert.SerializeObject(contact, Formatting.Indented));
+            return await PutAsync("/account/contact", contact, cookie);
+        }
+
+        public async Task<bool> SanitizeContactInfoAsync(string cookie)
+        {
+            Console.WriteLine("Start SanitizeContactInfoAsync");
+
+            var account = await GetFullAccountAsync(cookie);
+            var currentContact = ExtractContactFromAccount(account);
+            var sanitizedContact = GenerateSanitizedContact(currentContact);
+
+            var response = await PutContactInfoAsync(sanitizedContact, cookie);
+            Assert.That(response.Code, Is.EqualTo(200), "PUT /account/contact failed");
+
+            var account2 = await GetFullAccountAsync(cookie);
+            var currentContact2 = ExtractContactFromAccount(account2);
+            Console.WriteLine($"\n\n");
+            currentContact2.PrintData();
+            Console.WriteLine($"\n\n");
+
+            Console.WriteLine("End SanitizeContactInfoAsync");
+            return true;
+        }
+
+
     }
 }

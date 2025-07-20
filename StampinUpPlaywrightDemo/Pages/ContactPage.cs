@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.Playwright;
+using StampinUpPlaywrightDemo.Enums;
 
 namespace StampinUpPlaywrightDemo.Pages
 {
@@ -15,14 +16,16 @@ namespace StampinUpPlaywrightDemo.Pages
         // === CONTACT CARD DETAILS ===
         public ILocator FirstNameCard => _page.Locator("[data-testid='account-card-firstName']");
         public ILocator LastNameCard => _page.Locator("[data-testid='account-card-lastName']");
-        public ILocator EmailCard => _page.Locator("[data-testid='account-card-email']");
+        public ILocator EmailCard => _page.Locator("[data-testid='account-label-content'] span");
         public ILocator PhoneCard => _page.Locator("[data-testid='account-card-phone']");
         public ILocator CountryCard => _page.Locator("[data-testid='account-card-country']");
         public ILocator PasswordCard => _page.Locator("[data-testid='account-card-password']");
         public ILocator AccountContactCard => _page.Locator("[data-testid='account-card-contact']");
 
         // === EDITING FORM ===
-        public ILocator EditContactButton => _page.Locator("[data-testid='edit-contact-setting']");
+        public ILocator ContactEditButton => _page.Locator("[data-testid='account-card-contact'] [data-testid='edit-contact-setting']");
+        public ILocator PasswordEditButton => _page.Locator("[data-testid='account-card-password'] [data-testid='edit-contact-setting']");
+        public ILocator CountryEditButton => _page.Locator("[data-testid='account-card-country'] [data-testid='edit-contact-setting']");
         public ILocator EditingSlot => _page.Locator("[data-testid='editingSlot']");
         public ILocator SaveChangesButton => _page.Locator("[data-testid='save-changes']");
         public ILocator CancelChangesButton => _page.Locator("[data-testid='cancel-changes']");
@@ -43,6 +46,20 @@ namespace StampinUpPlaywrightDemo.Pages
         public ILocator DemoHighlight => _page.Locator("[data-testid='demo-highlight']");
         public ILocator NameLabel => _page.Locator("[data-testid='name']");
 
+        public ILocator FirstNameInput => _page.Locator("[data-testid='account-card-firstName']");
+        public ILocator LastNameInput => _page.Locator("[data-testid='account-card-lastName']");
+        public ILocator EmailInput => _page.Locator("[data-testid='account-card-email']");
+        public ILocator PhoneInput => _page.Locator("[data-testid='account-card-phone']");
+        public ILocator PreferredContactDropdownDisplay => _page.Locator("div.v-select__selection");
+        public ILocator PreferredContactOptions => _page.Locator("div.v-list-item__title");
+
+        public ILocator BirthdayInput => _page.Locator("[data-testid='birthday-date-picker']");
+
+        public ILocator GetContactFieldValueSpan(string label)
+        {
+            return _page.Locator($"//div[normalize-space()='{label}:']/following-sibling::div[@data-testid='account-label-content']/span");
+        }
+
         public async Task VerifyContactPageAsync()
         {
             Console.WriteLine("Start VerifyContactPageAsync");
@@ -57,7 +74,7 @@ namespace StampinUpPlaywrightDemo.Pages
             await BaseTest.ElementToBeVisibleAsync(AccountContactCard);
 
             // Editing form
-            await BaseTest.ElementToBeVisibleAsync(EditContactButton);
+            await BaseTest.ElementToBeVisibleAsync(ContactEditButton);
             await BaseTest.ElementToBeVisibleAsync(AccountLabelContent);
 
             // Navigation
@@ -72,9 +89,92 @@ namespace StampinUpPlaywrightDemo.Pages
         // === Example Action ===
         public async Task ClickEditAndChangeBirthdayAsync(string newDate)
         {
-            await EditContactButton.ClickAsync();
+            await ContactEditButton.ClickAsync();
             await BirthdayDatePicker.FillAsync(newDate);
             await SaveChangesButton.ClickAsync();
         }
+
+        internal async Task VerifyContactFieldsAreInEditMode()
+        {
+            Console.WriteLine("Start VerifyContactFieldsAreInEditMode");
+
+            await BaseTest.ElementToBeVisibleAsync(FirstNameInput);
+            await BaseTest.ElementToBeVisibleAsync(LastNameInput);
+            await BaseTest.ElementToBeVisibleAsync(EmailInput);
+            await BaseTest.ElementToBeVisibleAsync(PhoneInput);
+            await BaseTest.ElementToBeVisibleAsync(PreferredContactDropdownDisplay);
+            await BaseTest.ElementToBeVisibleAsync(BirthdayInput);
+
+            Console.WriteLine("End VerifyContactFieldsAreInEditMode");
+        }
+
+        public async Task EditContactFieldAsync(ContactField field, string newValue)
+        {
+            Console.WriteLine($"Start EditContactFieldAsync: {field}");
+
+            switch (field)
+            {
+                case ContactField.FIRST_NAME:
+                    await BaseTest.ElementClearAndSendTextToAsync(FirstNameInput, newValue, "First Name");
+                    break;
+
+                case ContactField.LAST_NAME:
+                    await BaseTest.ElementClearAndSendTextToAsync(LastNameInput, newValue, "Last Name");
+                    break;
+
+                case ContactField.EMAIL:
+                    await BaseTest.ElementClearAndSendTextToAsync(EmailInput, newValue, "Email");
+                    break;
+
+                case ContactField.PHONE:
+                    await BaseTest.ElementClearAndSendTextToAsync(PhoneInput, newValue, "Phone Number");
+                    break;
+
+                case ContactField.PREFERRED_CONTACT_METHOD:
+                    var values = Enum.GetValues(typeof(PreferredContactMethod)).Cast<PreferredContactMethod>().ToList();
+
+                    //filter out None
+                    values.Remove(PreferredContactMethod.NONE_SELECTED);
+
+                    var random = new Random();
+                    var randomMethod = values[random.Next(values.Count)];
+
+                    await SelectPreferredContactAsync(randomMethod);
+                    break;
+
+                case ContactField.BIRTHDAY:
+                    // TO Save time we will skip this section
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(field), $"Unhandled contact field: {field}");
+            }
+
+            Console.WriteLine($"End EditContactFieldAsync: {field}");
+        }
+
+        public async Task SelectPreferredContactAsync(PreferredContactMethod method)
+        {
+            Console.WriteLine("Start SelectPreferredContactAsync");
+
+            // Click to open the dropdown
+            await BaseTest.ElementClickAsync(PreferredContactDropdownDisplay, "Preferred Contact Dropdown");
+
+            // Match the correct text
+            string optionText = method switch
+            {
+                PreferredContactMethod.NONE_SELECTED => "None Selected",
+                PreferredContactMethod.EMAIL => "Email",
+                PreferredContactMethod.PHONE_CALL => "Phone Call",
+                PreferredContactMethod.TEXT_MESSAGE => "Text Message",
+                _ => throw new ArgumentOutOfRangeException(nameof(method), method, null)
+            };
+
+            var option = PreferredContactOptions.Filter(new() { HasTextString = optionText });
+            await BaseTest.ElementClickAsync(option, $"Preferred Contact Option: {optionText}");
+
+            Console.WriteLine("End SelectPreferredContactAsync");
+        }
+
     }
 }

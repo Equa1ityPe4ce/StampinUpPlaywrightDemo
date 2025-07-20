@@ -118,23 +118,38 @@ namespace StampinUpPlaywrightDemo
         //         Actions Helpers
         // ################################################
         // Clicks an element after ensuring it's visible and attached
-        public static async Task ElementClickAsync(ILocator locator, string elementName = "")
+        public static async Task ElementClickAsync(ILocator locator, string elementName = "", int timeoutMs = 5000, int pollIntervalMs = 500)
         {
-            try
-            {
-                Console.WriteLine($"Clicking element: {locator}");
+            var startTime = DateTime.UtcNow;
+            var endTime = startTime.AddMilliseconds(timeoutMs);
+            Exception lastException = null;
 
-                await locator.WaitForAsync(new() { State = WaitForSelectorState.Visible });
-                await locator.ClickAsync();
+            Console.WriteLine($"Clicking element: {locator}");
 
-                Console.WriteLine($"Clicked element: {locator}");
-            }
-            catch (Exception ex)
+            while (DateTime.UtcNow < endTime)
             {
-                Console.WriteLine($"Failed to click element: {elementName ?? locator.ToString()}");
-                throw;
+                try
+                {
+                    if (await locator.IsVisibleAsync() && await locator.IsEnabledAsync())
+                    {
+                        await locator.ClickAsync();
+                        Console.WriteLine($"Clicked element: {locator}");
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    lastException = ex;
+                    // retry
+                }
+
+                await Task.Delay(pollIntervalMs);
             }
+
+            Console.WriteLine($"Failed to click element: {locator} after {timeoutMs}ms");
+            throw new TimeoutException($"Element click failed for: {locator}", lastException);
         }
+
 
         // Sends text to an input element
         public static async Task ElementSendTextToAsync(ILocator locator, string text, string elementName = "")
@@ -211,13 +226,29 @@ namespace StampinUpPlaywrightDemo
 
 
         // ToBeVisibleAsync
-        public static async Task ElementToBeVisibleAsync(ILocator locator)
+        public static async Task ElementToBeVisibleAsync(ILocator locator, int timeoutMs = 5000, int pollIntervalMs = 500)
         {
-            Console.WriteLine($"\nLooking for element to be visible: {locator}");
+            var startTime = DateTime.UtcNow;
+            var endTime = startTime.AddMilliseconds(timeoutMs);
 
-            await Expect(locator).ToBeVisibleAsync();
+            while (DateTime.UtcNow < endTime)
+            {
+                try
+                {
+                    if (await locator.IsVisibleAsync())
+                    {
+                        return;
+                    }
+                }
+                catch
+                {
+                    // Ignore transient exceptions like detached DOM nodes
+                }
 
-            Console.WriteLine($"Element was found \n");
+                await Task.Delay(pollIntervalMs);
+            }
+
+            throw new TimeoutException($"Element {locator} was not visible after {timeoutMs}ms.");
         }
 
         // ToContainTextAsync

@@ -32,10 +32,10 @@ namespace StampinUpPlaywrightDemo.Models
         public string Role { get; set; }
 
         [JsonProperty("address")]
-        public List<Address> Addresses { get; set; }
+        public Address Address { get; set; }
 
         [JsonProperty("errors")]
-        public string Errors { get; set; }
+        public List<string> Errors { get; set; }
 
         [JsonProperty("preferredContact")]
         public string PreferredContact { get; set; }
@@ -68,21 +68,6 @@ namespace StampinUpPlaywrightDemo.Models
             Console.WriteLine($"ISO Birthday: {IsoBirthday ?? "N/A"}");
             Console.WriteLine($"Is Beta User: {IsBetaUser}");
             Console.WriteLine($"Is CTMH Demo: {IsCloseToMyHeartDemo}");
-            Console.WriteLine($"Errors: {Errors ?? "None"}");
-
-            if (Addresses != null && Addresses.Any())
-            {
-                Console.WriteLine("\n-- Addresses --");
-                foreach (var addr in Addresses)
-                {
-                    addr?.PrintData();
-                    Console.WriteLine();
-                }
-            }
-            else
-            {
-                Console.WriteLine("-- No Addresses --");
-            }
         }
     }
 }

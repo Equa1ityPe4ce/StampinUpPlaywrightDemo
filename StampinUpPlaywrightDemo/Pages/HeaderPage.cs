@@ -1,5 +1,7 @@
 ﻿
 using Microsoft.Playwright;
+using StampinUpPlaywrightDemo.Enums;
+using System.Reflection.PortableExecutable;
 using static Microsoft.Playwright.Assertions;
 
 namespace StampinUpPlaywrightDemo.Pages
@@ -31,7 +33,7 @@ namespace StampinUpPlaywrightDemo.Pages
         public ILocator Subscriptions => _page.Locator("a[href='/account/subscriptions']");
         public ILocator Demonstrator => _page.Locator("a[href='/account/demonstrator']");
         public ILocator Rewards => _page.Locator("a[href='/account/rewards']");
-        public ILocator SignOut => _page.Locator("a[href='/account/logout']");
+        public ILocator SignOut => _page.Locator("[data-testid='auth-logout']");
 
         // === CART ===
         public ILocator CartQtyContainer => _page.Locator("[data-testid='cart-qty-container']");
@@ -79,6 +81,56 @@ namespace StampinUpPlaywrightDemo.Pages
         public ILocator CommunityJoinButton => _page.Locator("[data-testid='community-join-button']");
         public ILocator HeartIcon => _page.Locator("[data-testid='heart-icon']");
 
+        public async Task NavigateToPage(NavigationEnum pageToNavigateTo)
+        {
+            //Verif user is logged in
+            ElementToBeVisibleAsync(FirstNameButton);
+            //open navigation menu
+            ElementClickAsync(FirstNameButton);
+            //verif menu options exist
+            ElementToBeVisibleAsync(AccountSettings);
+            ElementToBeVisibleAsync(Addresses);
+            ElementToBeVisibleAsync(Payments);
+            ElementToBeVisibleAsync(Orders);
+            ElementToBeVisibleAsync(Lists);
+            ElementToBeVisibleAsync(Subscriptions);
+            ElementToBeVisibleAsync(Demonstrator);
+            ElementToBeVisibleAsync(Rewards);
+            ElementToBeVisibleAsync(SignOut);
+
+            switch (pageToNavigateTo)
+            {
+                case NavigationEnum.ACCOUNT_SETTINGS:
+                    await BaseTest.ElementClickAsync(AccountSettings);
+                    break;
+                case NavigationEnum.ADDRESSES:
+                    await BaseTest.ElementClickAsync(Addresses);
+                    break;
+                case NavigationEnum.PAYMENT:
+                    await BaseTest.ElementClickAsync(Payments);
+                    break;
+                case NavigationEnum.MY_ORDERS:
+                    await BaseTest.ElementClickAsync(Orders);
+                    break;
+                case NavigationEnum.MY_LISTS:
+                    await BaseTest.ElementClickAsync(Lists);
+                    break;
+                case NavigationEnum.SUBSCRIPTIONS:
+                    await BaseTest.ElementClickAsync(Subscriptions);
+                    break;
+                case NavigationEnum.DEMONSTRATOR:
+                    await BaseTest.ElementClickAsync(Demonstrator);
+                    break;
+                case NavigationEnum.REWARDS:
+                    await BaseTest.ElementClickAsync(Rewards);
+                    break;
+                case NavigationEnum.SIGN_OUT:
+                    await BaseTest.ElementClickAsync(SignOut);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(pageToNavigateTo), pageToNavigateTo, "incorrect nav option provided");
+            }
+        }
         public async Task VerifyHeaderLoadedAsync()
         {
             Console.WriteLine("Start VerifyHeaderLoadedAsync");

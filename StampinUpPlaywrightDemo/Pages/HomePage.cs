@@ -1,4 +1,6 @@
 ﻿using Microsoft.Playwright;
+using StampinUpPlaywrightDemo.Enums;
+using System.ComponentModel.DataAnnotations;
 using static Microsoft.Playwright.Assertions;
 
 namespace StampinUpPlaywrightDemo.Pages
@@ -61,6 +63,20 @@ namespace StampinUpPlaywrightDemo.Pages
             await BaseTest.ElementToBeVisibleAsync(header.SignInButton);
             await BaseTest.ElementClickAsync(header.SignInButton);
             await BaseTest.ElementToBeVisibleAsync(signInModalPage.CreateAccountButton);
+        }
+
+        public async Task PreconditionOpenWebsiteLoginAndNavigateToPage(string email,string password,NavigationEnum navigation)
+        {
+            //Openwebsite and begin login
+            await _page.GotoAsync("https://www.stampinup.com");
+            await OpenSignInModalAsync();
+
+            //completelogin
+            await signInModalPage.SignInAsync(email, password);
+            await BaseTest.ElementToBeVisibleAsync(header.FirstNameButton);
+
+            //navigatetodesired page
+            await header.NavigateToPage(navigation);
         }
     }
 }
