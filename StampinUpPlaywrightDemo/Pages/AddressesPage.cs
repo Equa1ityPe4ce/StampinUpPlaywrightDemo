@@ -13,7 +13,7 @@ namespace StampinUpPlaywrightDemo.Pages
         }
 
         // === ADDRESS FORM FIELDS ===
-        public ILocator AddressLine1Input => _page.Locator("[data-testid='address-field-addressLine1']");
+        public ILocator AddressLine1Input => _page.Locator("[data-testid='address.addressLine1']");
         public ILocator AddressLine2Input => _page.Locator("[data-testid='address-field-addressLine2']");
         public ILocator CityInput => _page.Locator("[data-testid='address-field-city']");
         public ILocator PostalCodeInput => _page.Locator("[data-testid='address-field-postalCode']");
@@ -22,9 +22,13 @@ namespace StampinUpPlaywrightDemo.Pages
         public ILocator LastNameInput => _page.Locator("[data-testid='address-field-last-name']");
         public ILocator PhoneInput => _page.Locator("[data-testid='address-telephone']");
         public ILocator MailingAddressCheckbox => _page.Locator("[data-testid='mailing-address']");
-        public ILocator MailingAddressDefaultCheckbox => _page.Locator("[data-testid='mailing-address-default']");
+        public ILocator MailingAddressDefaultCheckbox => _page.Locator("label[for='input-1336']");
+        public ILocator ShippingAddressDefaultCheckbox => _page.GetByText("Make this my default shipping address", new() { Exact = true });
+
         public ILocator HiddenAutofill => _page.Locator("[data-testid='hidden-state-autofill']");
         public ILocator AutocompleteField => _page.Locator("[data-testid='autocomplete-field-div']");
+        public ILocator StateField => _page.Locator("data-testid='autocomplete-field-div'");
+
 
         // === ADDRESS ACTIONS ===
         public ILocator SaveButton => _page.Locator("[data-testid='address-save']");
@@ -48,9 +52,23 @@ namespace StampinUpPlaywrightDemo.Pages
         public ILocator ShippingEditButton => _page.Locator("[data-testid='address-list-default'] [data-testid='addresslist-item-btn-edit']");
         public ILocator MailingEditButton => _page.Locator("[data-testid='mailing-address'] [data-testid='addresslist-item-btn-edit']");
 
-        public ILocator AddressListRow0 => _page.Locator("[data-testid='addresslist-row-0']");
-        public ILocator AddressListRow1 => _page.Locator("[data-testid='addresslist-row-1']");
-        public ILocator AddressListRow2 => _page.Locator("[data-testid='addresslist-row-2']");
+        // Mailing Address Block
+        public ILocator MailingAddressBlock => _page.Locator("[data-testid='mailing-address']");
+        public ILocator MailingNameRow => MailingAddressBlock.Locator("[data-testid='addresslist-row-0']").Nth(1);
+        public ILocator MailingStreetRow => MailingAddressBlock.Locator("[data-testid='addresslist-row-1']").Nth(1);
+        public ILocator MailingCityZipRow => MailingAddressBlock.Locator("[data-testid='addresslist-row-2']").Nth(1);
+
+        // Shipping Address Block
+        public ILocator ShippingAddressBlock => _page.Locator("[data-testid='shipping-address']");
+        public ILocator ShippingNameRow => ShippingAddressBlock.Locator("[data-testid='addresslist-row-0']").First;
+        public ILocator ShippingStreetRow => ShippingAddressBlock.Locator("[data-testid='addresslist-row-1']").First;
+        public ILocator ShippingCityZipRow => ShippingAddressBlock.Locator("[data-testid='addresslist-row-2']").First;
+
+        // Default Address Block (if needed)
+        public ILocator DefaultAddressBlock => _page.Locator("[data-testid='address-list-default']");
+        public ILocator DefaultNameRow => DefaultAddressBlock.Locator("[data-testid='addresslist-row-0']");
+        public ILocator DefaultStreetRow => DefaultAddressBlock.Locator("[data-testid='addresslist-row-1']");
+        public ILocator DefaultCityZipRow => DefaultAddressBlock.Locator("[data-testid='addresslist-row-2']");
 
         // === NAVIGATION & MISC ===
         public ILocator Nav => _page.Locator("[data-testid='nav']");

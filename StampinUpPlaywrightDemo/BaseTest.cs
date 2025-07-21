@@ -150,6 +150,47 @@ namespace StampinUpPlaywrightDemo
             throw new TimeoutException($"Element click failed for: {locator}", lastException);
         }
 
+        // ElementIsCheckedAsync
+        public static async Task ElementIsCheckedAsync(ILocator locator, bool checkedTrueOrFalse)
+        {
+            Console.WriteLine($"\nLooking for element to be checked {checkedTrueOrFalse}: {locator}");
+            if (checkedTrueOrFalse)
+            {
+                await Expect(locator).ToBeCheckedAsync();
+            }
+            else
+            {
+                await Expect(locator).Not.ToBeCheckedAsync();
+            }
+            
+
+            Console.WriteLine($"Element was confirmed checked {checkedTrueOrFalse}\n");
+        }
+
+        //click by text
+        public static async Task ClickByTextAsync(IPage page, string text, int timeoutMs = 5000)
+        {
+            Console.WriteLine($"Looking for element with exact text: '{text}'");
+
+            var locator = page.Locator($"text=\"{text}\"");
+
+            try
+            {
+                await locator.WaitForAsync(new LocatorWaitForOptions
+                {
+                    State = WaitForSelectorState.Visible,
+                    Timeout = timeoutMs
+                });
+
+                await locator.ClickAsync();
+                Console.WriteLine($"Clicked element with text: '{text}'");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to click element with text: '{text}'");
+                throw;
+            }
+        }
 
         // Sends text to an input element
         public static async Task ElementSendTextToAsync(ILocator locator, string text, string elementName = "")
@@ -230,7 +271,7 @@ namespace StampinUpPlaywrightDemo
         {
             try
             {
-                Console.WriteLine($"[WaitForVisible] Waiting for: {locator}");
+                Console.WriteLine($"Waiting for: {locator}");
 
                 await locator.WaitForAsync(new LocatorWaitForOptions
                 {
@@ -238,16 +279,16 @@ namespace StampinUpPlaywrightDemo
                     Timeout = timeoutMs
                 });
 
-                Console.WriteLine($"[WaitForVisible] Element is now visible: {locator}");
+                Console.WriteLine($"Element is now visible: {locator}");
             }
             catch (TimeoutException)
             {
-                Console.WriteLine($"[WaitForVisible] Timeout: Element {locator} was not visible after {timeoutMs}ms.");
+                Console.WriteLine($"Timeout: Element {locator} was not visible after {timeoutMs}ms.");
                 throw;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[WaitForVisible] Exception: {ex.Message}");
+                Console.WriteLine($"Exception: {ex.Message}");
                 throw;
             }
         }
@@ -280,6 +321,16 @@ namespace StampinUpPlaywrightDemo
             await Expect(locator).ToHaveValueAsync(expectedValue);
 
             Console.WriteLine($"Element had expected value: {expectedValue}\n");
+        }
+
+        // ToNotHaveValueAsync
+        public static async Task ElementToNotHaveValueAsync(ILocator locator, string unexpectedValue)
+        {
+            Console.WriteLine($"\n Looking for element: {locator} to NOT have value: {unexpectedValue}");
+
+            await Expect(locator).Not.ToHaveValueAsync(unexpectedValue);
+
+            Console.WriteLine($"Element did NOT have value: {unexpectedValue}\n");
         }
 
         // ToBeUnChecked

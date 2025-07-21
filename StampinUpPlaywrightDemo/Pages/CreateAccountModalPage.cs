@@ -125,5 +125,39 @@ namespace StampinUpPlaywrightDemo.Pages
             await ElementToBeVisibleAsync(PasswordFieldRequiredError);
             await ElementToBeVisibleAsync(ConfirmPasswordFieldRequiredError);
         }
+
+        public async Task CreateanAccount(string nameFirst, string nameLast,string email,string password )
+        {
+            HeaderPage _headerPage = new(_page);
+            await ElementSendTextToAsync(FirstNameInput, nameFirst);
+            await ElementSendTextToAsync(LastNameInput, nameLast);
+
+            await Expect(FirstNameInput).ToHaveValueAsync(nameFirst);
+            await Expect(LastNameInput).ToHaveValueAsync(nameLast);
+
+            //NOTE NO 2FA NEEDED so a throw AWAY EMAIL IS USED using a throw away email site like"https://temp-mail.org/en/10minutemail" enter the throw away email into the email field
+            await ElementSendTextToAsync(EmailInput, email);
+            await Expect(EmailInput).ToHaveValueAsync(email);
+
+            // Enter simple password for password and confirmpassword fields or complicated if you want (eg. Qwer1234)
+            // input is entered and retained with an obfuscated mask to cover the password from the ui
+            await ElementSendTextToAsync(PasswordInput, password);
+            await ElementSendTextToAsync(ConfirmPasswordInput, password);
+
+            Assert.That(await PasswordInput.GetAttributeAsync("type"), Is.EqualTo("password"));
+            Assert.That(await ConfirmPasswordInput.GetAttributeAsync("type"), Is.EqualTo("password"));
+
+            // select Create account button
+            await ElementClickAsync(CreateAccountButton);
+
+            // Account is created. Modal closes.
+            // Join Stampin' Rewards modal is displayed => user closes that
+            await ElementClickAsync(MaybeLaterButton);
+            await ElementClickAsync(CloseButton);
+
+            //User is logged in.
+            //Header displays: “Hello, {userFirstName}”
+            await ElementToHaveTextAsync(_headerPage.FirstNameButton, nameFirst);
+        }
     }
 }
