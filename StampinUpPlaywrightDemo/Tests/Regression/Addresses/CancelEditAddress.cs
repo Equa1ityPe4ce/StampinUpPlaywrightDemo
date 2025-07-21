@@ -8,113 +8,17 @@ namespace StampinUpPlaywrightDemo.Tests.Regression.Addresses
     public class CancelEditAddress : BaseTest
     {
 
-        //
+        // Navigate to the Edit Shipping Address screen.
 
-        //
+        // Change one or more fields.
 
-        //
+        // Select or opt to cancel changes
 
-        //
+        // Changes are not saved.
 
-        //
+        // User is returned to the previous screen.
 
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
+        // Original address remains unchanged.
 
     }
 }

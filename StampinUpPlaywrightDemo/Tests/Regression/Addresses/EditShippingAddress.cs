@@ -8,113 +8,18 @@ namespace StampinUpPlaywrightDemo.Tests.Regression.Addresses
     public class EditShippingAddress
     {
 
-        //
+        // Navigate to Account Settings → Addresses → Edit Shipping Address.
 
-        //
+        // Update all fields (First Name, Last Name, Address, City, State, ZIP, Phone).
 
-        //
+        // Ensure “Make this my default shipping address” is checked.
 
-        //
+        // select Save Address Button
 
-        //
+        // Address is saved successfully.
 
-        //
+        // User is returned to the address list.
 
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
-        //
-
+        // Updated address appears in the address display objects.
     }
 }
