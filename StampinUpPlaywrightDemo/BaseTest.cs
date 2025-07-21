@@ -226,29 +226,30 @@ namespace StampinUpPlaywrightDemo
 
 
         // ToBeVisibleAsync
-        public static async Task ElementToBeVisibleAsync(ILocator locator, int timeoutMs = 5000, int pollIntervalMs = 500)
+        public static async Task ElementToBeVisibleAsync(ILocator locator, int timeoutMs = 5000)
         {
-            var startTime = DateTime.UtcNow;
-            var endTime = startTime.AddMilliseconds(timeoutMs);
-
-            while (DateTime.UtcNow < endTime)
+            try
             {
-                try
-                {
-                    if (await locator.IsVisibleAsync())
-                    {
-                        return;
-                    }
-                }
-                catch
-                {
-                    // Ignore transient exceptions like detached DOM nodes
-                }
+                Console.WriteLine($"[WaitForVisible] Waiting for: {locator}");
 
-                await Task.Delay(pollIntervalMs);
+                await locator.WaitForAsync(new LocatorWaitForOptions
+                {
+                    State = WaitForSelectorState.Visible,
+                    Timeout = timeoutMs
+                });
+
+                Console.WriteLine($"[WaitForVisible] Element is now visible: {locator}");
             }
-
-            throw new TimeoutException($"Element {locator} was not visible after {timeoutMs}ms.");
+            catch (TimeoutException)
+            {
+                Console.WriteLine($"[WaitForVisible] Timeout: Element {locator} was not visible after {timeoutMs}ms.");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[WaitForVisible] Exception: {ex.Message}");
+                throw;
+            }
         }
 
         // ToContainTextAsync
@@ -269,6 +270,16 @@ namespace StampinUpPlaywrightDemo
             await Expect(locator).ToHaveTextAsync(textToAssert);
 
             Console.WriteLine($"Element was found with text \n");
+        }
+
+        // ToHaveValueAsync
+        public static async Task ElementToHaveValueAsync(ILocator locator, string expectedValue)
+        {
+            Console.WriteLine($"\n Looking for element: {locator} to have value: {expectedValue}");
+
+            await Expect(locator).ToHaveValueAsync(expectedValue);
+
+            Console.WriteLine($"Element had expected value: {expectedValue}\n");
         }
 
         // ToBeUnChecked
