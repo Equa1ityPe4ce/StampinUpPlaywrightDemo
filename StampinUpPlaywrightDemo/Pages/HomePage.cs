@@ -5,7 +5,7 @@ using static Microsoft.Playwright.Assertions;
 
 namespace StampinUpPlaywrightDemo.Pages
 {
-    public class HomePage
+    public class HomePage : BaseTest
     {
         private readonly IPage _page;
         HeaderPage header;
@@ -77,6 +77,16 @@ namespace StampinUpPlaywrightDemo.Pages
 
             //navigatetodesired page
             await header.NavigateToPage(navigation);
+        }
+
+        public async Task OpenCreateAccount()
+        {
+            var _createAccountModal = new CreateAccountModalPage(_page);
+            await _page.GotoAsync("https://www.stampinup.com");
+            await VerifyOnHomePageAsync();
+            await ElementClickAsync(header.SignInButton);
+            await signInModalPage.StartCreateAccount();
+            await _createAccountModal.VerifyCreateAccountModalAsync();
         }
     }
 }

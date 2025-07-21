@@ -36,7 +36,7 @@ namespace StampinUpPlaywrightDemo.Tests.Smoke
             TestDriver.ValidateNoSiteErrors();
 
 
-            //NOTE THESE TESTS CANT BE AUTOMATED UNLESS I  MAKE OpenCV /EMGU Wrapper and due to time constraints we will not be doing that
+            //NOTE THESE TESTS WONT BE AUTOMATED UNLESS I  MAKE OpenCV /EMGU Wrapper and due to time constraints we will not be doing that
             // Manually trigger OS/browser dark mode and refresh the site in a new tab.
             // Site detects system preference and adjusts or ignores mode switching. Text and buttons remain legible; no color bleed or overlap.
             // Switch Dark Light Mode a few times
