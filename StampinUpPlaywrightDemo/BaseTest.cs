@@ -26,7 +26,7 @@ namespace StampinUpPlaywrightDemo
         {
             Debug.WriteLine("\n_________====== DEBUG Test started ======_________\n");
 
-        Console.WriteLine("☼☼ Test Started!");
+            Console.WriteLine("☼☼ Test Started!");
 
         }
 
@@ -112,7 +112,7 @@ namespace StampinUpPlaywrightDemo
         {
             Console.WriteLine("\n--- Test Class Summary ---");
             //Console.WriteLine($"Passed Tests: {classPassList}");
-           // Console.WriteLine($"Failed Tests: {classFailList}");
+            // Console.WriteLine($"Failed Tests: {classFailList}");
         }
         // ################################################
         //         Actions Helpers
@@ -162,7 +162,7 @@ namespace StampinUpPlaywrightDemo
             {
                 await Expect(locator).Not.ToBeCheckedAsync();
             }
-            
+
 
             Console.WriteLine($"Element was confirmed checked {checkedTrueOrFalse}\n");
         }

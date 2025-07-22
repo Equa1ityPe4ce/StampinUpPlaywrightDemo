@@ -126,6 +126,7 @@ namespace StampinUpPlaywrightDemo.Pages
                     break;
                 case NavigationEnum.SIGN_OUT:
                     await BaseTest.ElementClickAsync(SignOut);
+                    await _page.WaitForTimeoutAsync(2000);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(pageToNavigateTo), pageToNavigateTo, "incorrect nav option provided");

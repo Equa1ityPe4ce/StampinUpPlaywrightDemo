@@ -49,8 +49,8 @@ namespace StampinUpPlaywrightDemo.Pages
 
         // hack for when both are displayed
         public ILocator PasswordRequiredErrors => _page.Locator("div.v-messages__message", new() { HasTextString = "The Password field is required." });
-        public ILocator PasswordFieldRequiredError => PasswordRequiredErrors.Nth(0);       
-        public ILocator ConfirmPasswordFieldRequiredError => PasswordRequiredErrors.Nth(1); 
+        public ILocator PasswordFieldRequiredError => PasswordRequiredErrors.Nth(0);
+        public ILocator ConfirmPasswordFieldRequiredError => PasswordRequiredErrors.Nth(1);
 
 
         // === MISC ===
@@ -67,7 +67,7 @@ namespace StampinUpPlaywrightDemo.Pages
         public ILocator BottomSignInButton =>
             _page.Locator("[data-testid='reg-btn-sign-in']");
 
-        public async Task FillAllCreateAccountFields(string firstName,string lastName, string email, string password)
+        public async Task FillAllCreateAccountFields(string firstName, string lastName, string email, string password)
         {
             // enter valid data into the first & Last name fields
             await ElementSendTextToAsync(FirstNameInput, firstName);
@@ -126,7 +126,7 @@ namespace StampinUpPlaywrightDemo.Pages
             await ElementToBeVisibleAsync(ConfirmPasswordFieldRequiredError);
         }
 
-        public async Task CreateanAccount(string nameFirst, string nameLast,string email,string password )
+        public async Task CreateanAccount(string nameFirst, string nameLast, string email, string password)
         {
             HeaderPage _headerPage = new(_page);
             await ElementSendTextToAsync(FirstNameInput, nameFirst);

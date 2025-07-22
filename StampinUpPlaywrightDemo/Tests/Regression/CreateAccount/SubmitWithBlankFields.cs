@@ -19,13 +19,14 @@ namespace StampinUpPlaywrightDemo.Tests.Regression.CreateAccount
             var _headerPage = new HeaderPage(_page);
             var _signInModal = new SignInModalPage(_page);
             var _createAccountModal = new CreateAccountModalPage(_page);
-            
+
             await _homePage.OpenCreateAccount();
 
             // Leave all fields empty → Click Create Account button
             await ElementClickAsync(_createAccountModal.CreateAccountButton);
 
             // Each field highlights in red with validation messages:
-            await _createAccountModal.VerifyAllCreateAccountErrorMessagesAreDisplayed();        }
+            await _createAccountModal.VerifyAllCreateAccountErrorMessagesAreDisplayed();
+        }
     }
 }

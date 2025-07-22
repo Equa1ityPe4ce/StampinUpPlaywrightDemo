@@ -22,6 +22,16 @@ namespace StampinUpPlaywrightDemo.Pages
         public ILocator PasswordCard => _page.Locator("[data-testid='account-card-password']");
         public ILocator AccountContactCard => _page.Locator("[data-testid='account-card-contact']");
 
+        // == Error Message ===
+        public ILocator FirstNameRequiredError => _page.Locator("div.v-messages__message", new() { HasTextString = "The First Name field is required." });
+        public ILocator EmailRequiredError => _page.Locator("div.v-messages__message", new() { HasTextString = "The Email Address field is required." });
+        public ILocator ConfirmPasswordMismatchError => _page.Locator("div.v-messages__message", new() { HasTextString = "The Password field confirmation does not match." });
+        public ILocator PhoneNumberLengthError => _page.Locator("div.v-messages__message", new() { HasTextString = "The Phone Number field must be at least 10 characters long." });
+        public ILocator InvalidEmailError => _page.Locator("div.v-messages__message", new() { HasTextString = "The Email Address field must be a valid email" });
+        public ILocator AllPasswordRequiredErrors => _page.Locator("div.v-messages__message", new() { HasTextString = "The Password field is required." });
+        public ILocator NewPasswordRequiredError => AllPasswordRequiredErrors.Nth(0);
+        public ILocator ConfirmPasswordRequiredError => AllPasswordRequiredErrors.Nth(1);
+
         // === EDITING FORM ===
         public ILocator ContactEditButton => _page.Locator("[data-testid='account-card-contact'] [data-testid='edit-contact-setting']");
         public ILocator PasswordEditButton => _page.Locator("[data-testid='account-card-password'] [data-testid='edit-contact-setting']");
@@ -33,6 +43,10 @@ namespace StampinUpPlaywrightDemo.Pages
         public ILocator SecondaryLanguageSelect => _page.Locator("[data-testid='secondaryLanguage']");
         public ILocator ObserverForm => _page.Locator("[data-testid='observer-form']");
         public ILocator AccountLabelContent => _page.Locator("[data-testid='account-label-content']");
+        public ILocator CurrentPasswordInput => _page.Locator("input[data-testid='current-password']");
+        public ILocator NewPasswordInput => _page.Locator("label:text-is('New Password')").Locator("xpath=following-sibling::input");
+
+        public ILocator ConfirmNewPasswordInput => _page.Locator("label:text-is('Confirm New Password')").Locator("xpath=following-sibling::input");
 
         // === NAVIGATION ===
         public ILocator AccountLink => _page.Locator("[data-testid='account-link']");

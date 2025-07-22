@@ -65,7 +65,7 @@ namespace StampinUpPlaywrightDemo.Tests.Regression.CreateAccount
 
             //User is logged in.
             //Header displays: “Hello, {userFirstName}”
-            await ElementToHaveTextAsync(_headerPage.FirstNameButton,firstName);
+            await ElementToHaveTextAsync(_headerPage.FirstNameButton, firstName);
 
             // when user selects "Hello {usersFirstName}" button
             //      Account menu options dropdown is displayedin dropdown should be the following menu options"Account Settings""addresses""payment""My Orders""MyLists""Subscriptions""Demonstrator
@@ -85,7 +85,7 @@ namespace StampinUpPlaywrightDemo.Tests.Regression.CreateAccount
             //     Fields are populated displaying to user input was acceptedpassword field is obfuscated with **** to hide user password   
             // user selects the Sign In button 
             // after call is complete the modal has closedin header the Sign in button is replaced with a "Hello {usersFirstName}"
-            await _homePage.PreconditionOpenWebsiteLoginAndNavigateToPage(email,password,Enums.NavigationEnum.ACCOUNT_SETTINGS);
+            await _homePage.PreconditionOpenWebsiteLoginAndNavigateToPage(email, password, Enums.NavigationEnum.ACCOUNT_SETTINGS);
         }
     }
 }

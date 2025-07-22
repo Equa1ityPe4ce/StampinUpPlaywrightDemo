@@ -1,24 +1,20 @@
 ﻿
-using Microsoft.Playwright;
-using Newtonsoft.Json;
 using StampinUpPlaywrightDemo.Enums;
 using StampinUpPlaywrightDemo.Helpers;
-using StampinUpPlaywrightDemo.Models;
 using StampinUpPlaywrightDemo.Pages;
-using System.Reflection.PortableExecutable;
 
-namespace StampinUpPlaywrightDemo.Tests.Smoke
+namespace StampinUpPlaywrightDemo.Tests.Regression.AddEditAccountData
 {
     /// <summary>
-    /// Automated test Case covering test case https://projectdiablo2web.qatouch.com/case/shareable/p/38Qe/cid/QgpJbG
-    /// 
-    /// User updates all editable contact information and saves changes.
+    /// Automated test Case covering test case https://projectdiablo2web.qatouch.com/case/shareable/p/38Qe/cid/9wRPzd
+    /// test to verify user is able to successfuly update contact info
     /// </summary>
-    public class SuccessfullyUpdateAllContactFields : BaseTest
+    public class SuccessfullyUpdateContact : BaseTest
     {
         [Test]
-        public async Task TestForUpdateAllContactInfo()
+        public async Task TestSuccessfullyUpdateContact()
         {
+
             //Precondition
             var email = "z.timgranger@gmail.com";
             var password = "Qwer1234";
@@ -93,7 +89,6 @@ namespace StampinUpPlaywrightDemo.Tests.Smoke
 
             // From Header bar user locates "Sign In" button and selects it 
             await ElementToHaveTextAsync(_headerPage.FirstNameButton, "Tim");
-
         }
     }
 }

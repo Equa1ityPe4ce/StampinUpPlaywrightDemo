@@ -26,6 +26,18 @@ namespace StampinUpPlaywrightDemo.Pages
         public ILocator PasswordInput => _page.Locator("input[data-testid='auth-password']");
         public ILocator SubmitSignIn => _page.Locator("[data-testid='auth-submit']");
 
+        // == MISC ELE's
+        public ILocator PasswordVisibilityToggle => _page.Locator("button[aria-label='Password appended action']").First;
+        public ILocator RemeberMe => _page.Locator("label.v-label:has-text(\"Remember me\")");
+
+
+
+        // === ERROR MESSAGES ===
+        public ILocator EmailRequiredError => _page.Locator("div.v-messages__message", new() { HasTextString = "The Email Address field is required." });
+        public ILocator PasswordRequiredError => _page.Locator("div.v-messages__message", new() { HasTextString = "The Password field is required." });
+        public ILocator InvalidLoginMessage => _page.Locator("[data-testid='test-message']", new() { HasTextString = "Your email or password was incorrect." });
+
+
         // === REGISTRATION FIELDS ===
         public ILocator FirstNameInput => _page.Locator("[data-testid='reg-first-name']");
         public ILocator LastNameInput => _page.Locator("[data-testid='reg-last-name']");

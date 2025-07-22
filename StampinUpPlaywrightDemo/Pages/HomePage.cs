@@ -65,7 +65,7 @@ namespace StampinUpPlaywrightDemo.Pages
             await BaseTest.ElementToBeVisibleAsync(signInModalPage.CreateAccountButton);
         }
 
-        public async Task PreconditionOpenWebsiteLoginAndNavigateToPage(string email,string password,NavigationEnum navigation)
+        public async Task PreconditionOpenWebsiteLoginAndNavigateToPage(string email, string password, NavigationEnum navigation)
         {
             //Openwebsite and begin login
             await _page.GotoAsync("https://www.stampinup.com");

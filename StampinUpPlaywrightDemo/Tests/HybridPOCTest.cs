@@ -43,7 +43,7 @@ namespace StampinUpPlaywrightDemo.Tests
             //GET the users Address
             var response = await apiHelper.GetAsync("/address", cookieHeader);
             Assert.That(response.Code.Equals(200));
-            
+
             //proccess the response data
             var addresses = JsonConvert.DeserializeObject<List<Address>>(response.Data);
             Console.WriteLine($"response: {addresses}");
@@ -65,17 +65,17 @@ namespace StampinUpPlaywrightDemo.Tests
                 ? originalPhone.Substring(0, originalPhone.Length - 4) + newLast4
                 : newLast4;
             addresses.First().PhoneNumber = newPhone;
-            
+
             //update users phone number
             var putResponse = await apiHelper.PutAsync("/address", addresses.First(), cookieHeader);
-            
+
             // verify update request was successful
             Assert.AreEqual(200, putResponse.Code);
 
             //pull new user address data
             var verifyResponse = await apiHelper.GetAsync("/address", cookieHeader);
             var updatedAddresses = JsonConvert.DeserializeObject<List<Address>>(verifyResponse.Data);
-            
+
             //verify generated phone number matches what the database has for our users address
             Assert.AreEqual(newPhone, updatedAddresses.First().PhoneNumber);
 
