@@ -16,7 +16,7 @@ namespace StampinUpPlaywrightDemo.Helpers
             _client = client;
         }
 
-        private void SetHeaders(HttpRequestMessage request,string cookie = null)
+        private void SetHeaders(HttpRequestMessage request, string cookie = null)
         {
             request.Headers.Clear();
             request.Headers.Add("Accept", "application/json");

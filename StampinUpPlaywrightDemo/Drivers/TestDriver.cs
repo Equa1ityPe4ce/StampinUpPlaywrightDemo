@@ -30,8 +30,8 @@ namespace StampinUpPlaywrightDemo.Drivers
 
             page = await context.NewPageAsync();
 
-             jsErrors = new List<string>();
-             failedRequests = new List<string>();
+            jsErrors = new List<string>();
+            failedRequests = new List<string>();
 
             // Add listeners
             page.Console += (_, msg) =>

@@ -84,13 +84,13 @@ namespace StampinUpPlaywrightDemo.Pages
         public async Task VerifyAddressPageAsync()
         {
             Console.WriteLine("Start VerifyAddressPageAsync");
-            
+
             // Address list items
             await BaseTest.ElementToBeVisibleAsync(ShippingTitle);
             await BaseTest.ElementToBeVisibleAsync(MailingTitle);
             await BaseTest.ElementToBeVisibleAsync(MailingPhone);
             await BaseTest.ElementToBeVisibleAsync(ShippingPhone);
-          
+
             Console.WriteLine("End VerifyAddressPageAsync");
         }
 

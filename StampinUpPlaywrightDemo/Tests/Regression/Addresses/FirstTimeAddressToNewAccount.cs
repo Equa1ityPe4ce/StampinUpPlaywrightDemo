@@ -107,7 +107,7 @@ namespace StampinUpPlaywrightDemo.Tests.Regression.Addresses
             // default mailing address is populated with the data that matchies the form that was submitted
             // repeat steps for updating mailing to match shipping
             // user is able to successfully update fields to match
-            
+
             await ElementClickAsync(_addressPage.MailingEditButton);
             await ElementSendTextToAsync(_addressPage.AddressLine1Input, "2239 S 1800");
             await ClickByTextAsync(_page, "2239 S 1800 E, Salt Lake City, UT 84106-4128");
@@ -130,7 +130,7 @@ namespace StampinUpPlaywrightDemo.Tests.Regression.Addresses
             Assert.That(addresses2.Last().AddressLine1.Equals("2239 S 1800 E"));
             Assert.That(addresses2.Last().City.Equals("Salt Lake City"));
             Assert.That(addresses2.Last().Region.Equals("UT"));
-            Assert.That(addresses2.Last() .PostalCode.Equals("84106-4128"));
+            Assert.That(addresses2.Last().PostalCode.Equals("84106-4128"));
 
         }
     }

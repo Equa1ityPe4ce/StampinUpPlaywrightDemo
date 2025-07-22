@@ -36,7 +36,7 @@ namespace StampinUpPlaywrightDemo.Tests.Regression.Addresses
             await ElementSendTextToAsync(_addressPage.FirstNameInput, "Shelby");
             await ElementSendTextToAsync(_addressPage.LastNameInput, "Proctor");
             await ElementSendTextToAsync(_addressPage.AddressLine1Input, "21377 Magnolia st");
-            await ClickByTextAsync(_page,"21377 Magnolia St, Huntington Beach, CA 92646-6326");
+            await ClickByTextAsync(_page, "21377 Magnolia St, Huntington Beach, CA 92646-6326");
             //await ElementSendTextToAsync(_addressPage.CityInput, "Huntington Beach");
             //await ElementSendTextToAsync(_addressPage.StateField, "California");
             //await ElementSendTextToAsync(_addressPage.PostalCodeInput, "92646-6326");
@@ -50,7 +50,7 @@ namespace StampinUpPlaywrightDemo.Tests.Regression.Addresses
 
             // Address is saved successfully.
             await ElementToBeInvisibleAsync(_addressPage.SaveButton);
-            
+
             // User is returned to the address list.
             await ElementToBeVisibleAsync(_addressPage.ShippingEditButton);
 

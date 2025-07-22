@@ -28,7 +28,7 @@ namespace StampinUpPlaywrightDemo.Tests.Regression.Addresses
             // Navigate to the Edit Shipping Address screen.
             await _homePage.PreconditionOpenWebsiteLoginAndNavigateToPage(email, password, Enums.NavigationEnum.ADDRESSES);
 
-       
+
 
             // Change one or more fields.
             await ElementClickAsync(_addressPage.ShippingEditButton);

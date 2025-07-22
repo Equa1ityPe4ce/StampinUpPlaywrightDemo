@@ -37,7 +37,7 @@ namespace StampinUpPlaywrightDemo.Tests.Regression.CreateAccount
             //Email: qw
             //Password: qw
             //Confirm Password: qw
-            await _createAccountModal.FillAllCreateAccountFields(firstName,lastName,email,password);
+            await _createAccountModal.FillAllCreateAccountFields(firstName, lastName, email, password);
 
             // Upon entering QW for email field "Email field must be a valid email" error displayed
             await ElementToBeVisibleAsync(_createAccountModal.EmailInvalidFormatError);
